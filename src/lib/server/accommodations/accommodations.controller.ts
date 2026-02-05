@@ -1,0 +1,15 @@
+import { injectable } from '@needle-di/core';
+import { Controller } from '../common/factories/controller.factory';
+
+@injectable()
+export class AccommodationsController extends Controller {
+    routes() {
+        return this.controller
+            .basePath('/accommodations')
+            .get('/', async (c) => {})
+            .get('/:id', async (c) => {})
+            .post('/', async (c) => {})
+            .patch('/:id', async (c) => {})
+            .delete('/:id', async (c) => {});
+    }
+}
