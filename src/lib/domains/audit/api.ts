@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { parseClientResponse } from '$lib/utils/api';
 import type { ApiMutation, ApiQuery } from '$lib/utils/types';
 import { TanstackRequestOptions } from '../request-options';

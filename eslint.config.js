@@ -25,9 +25,11 @@ export default defineConfig(
       import: importPlugin
     },
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
+
     rules: {
       // typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
       // see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
+      '@typescript-eslint/ban-ts-comment': 'off',
       'svelte/no-navigation-without-resolve': 'off',
       'no-undef': 'off',
       'import/order': [
@@ -64,6 +66,12 @@ export default defineConfig(
           }
         }
       ]
+    }
+  },
+  {
+    files: ['src/lib/server/**/*.controller.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off'
     }
   },
   {

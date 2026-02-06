@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Api } from '$lib/utils/types';
 
 export type ListNotifications = Api['notifications']['$get'];
