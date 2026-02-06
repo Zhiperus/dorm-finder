@@ -1,14 +1,15 @@
-import type { ClientRequestOptions } from 'hono';
-import { TanstackRequestOptions } from './request-options';
-import { UsersModule } from './users/api';
 import { AccommodationsModule } from './accommodations/api';
-import { RoomsModule } from './rooms/api';
 import { ApplicationsModule } from './applications/api';
-import { OccupancyModule } from './occupancy/api';
-import { BillingModule } from './billing/api';
-import { ReportsModule } from './reports/api';
-import { NotificationsModule } from './notifications/api';
 import { AuditModule } from './audit/api';
+import { BillingModule } from './billing/api';
+import { NotificationsModule } from './notifications/api';
+import { OccupancyModule } from './occupancy/api';
+import { ReportsModule } from './reports/api';
+import { TanstackRequestOptions } from './request-options';
+import { RoomsModule } from './rooms/api';
+import { UsersModule } from './users/api';
+
+import type { ClientRequestOptions } from 'hono';
 
 class ApiModule extends TanstackRequestOptions {
   users = new UsersModule(this.opts);

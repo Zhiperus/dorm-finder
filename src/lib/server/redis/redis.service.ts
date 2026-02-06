@@ -1,38 +1,34 @@
-import { Redis } from 'ioredis';
 import { inject, injectable } from '@needle-di/core';
+import { Redis } from 'ioredis';
+
 import { ConfigService } from '../common/config/config.service';
 
 @injectable()
 export class RedisService {
-    public redis: Redis;
+  public redis: Redis;
 
-    constructor(private configService = inject(ConfigService)) {
-        this.redis = new Redis(this.configService.envs.REDIS_URL);
-    }
+  constructor(private configService = inject(ConfigService)) {
+    this.redis = new Redis(this.configService.envs.REDIS_URL);
+  }
 
-    async get(data: { prefix: string; key: string }): Promise<string | null> {
-        return this.redis.get(`${data.prefix}:${data.key}`);
-    }
+  async get(data: { prefix: string; key: string }): Promise<string | null> {
+    return this.redis.get(`${data.prefix}:${data.key}`);
+  }
 
-    async set(data: { prefix: string; key: string; value: string }): Promise<void> {
-        await this.redis.set(`${data.prefix}:${data.key}`, data.value);
-    }
+  async set(data: { prefix: string; key: string; value: string }): Promise<void> {
+    await this.redis.set(`${data.prefix}:${data.key}`, data.value);
+  }
 
-    async delete(data: { prefix: string; key: string }): Promise<void> {
-        await this.redis.del(`${data.prefix}:${data.key}`);
-    }
+  async delete(data: { prefix: string; key: string }): Promise<void> {
+    await this.redis.del(`${data.prefix}:${data.key}`);
+  }
 
-    async setWithExpiry(data: {
-        prefix: string;
-        key: string;
-        value: string;
-        expiry: number;
-    }): Promise<void> {
-        await this.redis.set(
-            `${data.prefix}:${data.key}`,
-            data.value,
-            'EX',
-            Math.floor(data.expiry)
-        );
-    }
+  async setWithExpiry(data: {
+    prefix: string;
+    key: string;
+    value: string;
+    expiry: number;
+  }): Promise<void> {
+    await this.redis.set(`${data.prefix}:${data.key}`, data.value, 'EX', Math.floor(data.expiry));
+  }
 }

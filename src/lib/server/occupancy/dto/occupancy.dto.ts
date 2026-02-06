@@ -1,4 +1,5 @@
 import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+
 import { occupancyRecordsTable } from '../occupancy.schema';
 
 export const occupancyRecordDto = createSelectSchema(occupancyRecordsTable);

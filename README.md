@@ -82,11 +82,11 @@ import { pgTable, uuid, text, timestamp } from 'drizzle-orm/pg-core';
 import { timestamps } from '../common/utils/drizzle';
 
 export const tableNameTable = pgTable('table_name', {
-    id: uuid('id')
-        .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
-    name: text('name').notNull(),
-    ...timestamps
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text('name').notNull(),
+  ...timestamps
 });
 
 export type TableName = typeof tableNameTable.$inferSelect;
@@ -115,15 +115,15 @@ import type { TableName, TableNameId } from './module.schema';
 
 @injectable()
 export class TableNameRepository extends DrizzleRepository(DB) {
-    table = this.db.schema.tableNameTable;
+  table = this.db.schema.tableNameTable;
 
-    async findAll() {
-        return this.db.select().from(this.table);
-    }
+  async findAll() {
+    return this.db.select().from(this.table);
+  }
 
-    async findById(id: TableNameId) {
-        return this.db.select().from(this.table).where(eq(this.table.id, id));
-    }
+  async findById(id: TableNameId) {
+    return this.db.select().from(this.table).where(eq(this.table.id, id));
+  }
 }
 ```
 
@@ -135,15 +135,15 @@ import { TableNameRepository } from './table-name.repository';
 
 @injectable()
 export class TableNameService {
-    constructor(private tableNameRepository = inject(TableNameRepository)) {}
+  constructor(private tableNameRepository = inject(TableNameRepository)) {}
 
-    async getAll() {
-        return this.tableNameRepository.findAll();
-    }
+  async getAll() {
+    return this.tableNameRepository.findAll();
+  }
 
-    async getById(id: string) {
-        return this.tableNameRepository.findById(id as TableNameId);
-    }
+  async getById(id: string) {
+    return this.tableNameRepository.findById(id as TableNameId);
+  }
 }
 ```
 
@@ -158,47 +158,47 @@ import { tableNameDto, createTableNameDto } from './dto/module.dto';
 
 @injectable()
 export class TableNameController extends Controller {
-    constructor(private tableNameService = inject(TableNameService)) {
-        super();
-    }
+  constructor(private tableNameService = inject(TableNameService)) {
+    super();
+  }
 
-    routes() {
-        const app = this.controller;
+  routes() {
+    const app = this.controller;
 
-        const getAllRoute = createRoute({
-            method: 'get',
-            path: '/api/module-name',
-            responses: {
-                200: z.array(tableNameDto)
-            }
-        });
+    const getAllRoute = createRoute({
+      method: 'get',
+      path: '/api/module-name',
+      responses: {
+        200: z.array(tableNameDto)
+      }
+    });
 
-        const createRoute = createRoute({
-            method: 'post',
-            path: '/api/module-name',
-            request: {
-                body: {
-                    content: {
-                        'application/json': { schema: createTableNameDto }
-                    }
-                }
-            },
-            responses: {
-                201: tableNameDto
-            }
-        });
+    const createRoute = createRoute({
+      method: 'post',
+      path: '/api/module-name',
+      request: {
+        body: {
+          content: {
+            'application/json': { schema: createTableNameDto }
+          }
+        }
+      },
+      responses: {
+        201: tableNameDto
+      }
+    });
 
-        return app
-            .get('/api/module-name', async (c) => {
-                const result = await this.tableNameService.getAll();
-                return c.json(result);
-            })
-            .post('/api/module-name', async (c) => {
-                const data = await c.req.json();
-                const result = await this.tableNameService.create(data);
-                return c.json(result, 201);
-            });
-    }
+    return app
+      .get('/api/module-name', async (c) => {
+        const result = await this.tableNameService.getAll();
+        return c.json(result);
+      })
+      .post('/api/module-name', async (c) => {
+        const data = await c.req.json();
+        const result = await this.tableNameService.create(data);
+        return c.json(result, 201);
+      });
+  }
 }
 ```
 
@@ -234,43 +234,42 @@ import { TanstackRequestOptions } from '../request-options';
 import type { ListItems, GetItem, CreateItem, UpdateItem, DeleteItem } from './types';
 
 export class ModuleNameModule extends TanstackRequestOptions {
-    namespace = 'module-name';
+  namespace = 'module-name';
 
-    list(): ApiQuery<ListItems> {
-        return {
-            queryKey: [this.namespace],
-            queryFn: async () => await this.api.moduleName.$get().then(parseClientResponse)
-        };
-    }
+  list(): ApiQuery<ListItems> {
+    return {
+      queryKey: [this.namespace],
+      queryFn: async () => await this.api.moduleName.$get().then(parseClientResponse)
+    };
+  }
 
-    get(id: string): ApiQuery<GetItem> {
-        return {
-            queryKey: [this.namespace, id],
-            queryFn: async () =>
-                await this.api.moduleName[':id'].$get({ param: { id } }).then(parseClientResponse)
-        };
-    }
+  get(id: string): ApiQuery<GetItem> {
+    return {
+      queryKey: [this.namespace, id],
+      queryFn: async () =>
+        await this.api.moduleName[':id'].$get({ param: { id } }).then(parseClientResponse)
+    };
+  }
 
-    create(): ApiMutation<CreateItem> {
-        return {
-            mutationFn: async (data) =>
-                await this.api.moduleName.$post(data).then(parseClientResponse)
-        };
-    }
+  create(): ApiMutation<CreateItem> {
+    return {
+      mutationFn: async (data) => await this.api.moduleName.$post(data).then(parseClientResponse)
+    };
+  }
 
-    update(): ApiMutation<UpdateItem> {
-        return {
-            mutationFn: async (data) =>
-                await this.api.moduleName[':id'].$patch(data).then(parseClientResponse)
-        };
-    }
+  update(): ApiMutation<UpdateItem> {
+    return {
+      mutationFn: async (data) =>
+        await this.api.moduleName[':id'].$patch(data).then(parseClientResponse)
+    };
+  }
 
-    delete(): ApiMutation<DeleteItem> {
-        return {
-            mutationFn: async (data) =>
-                await this.api.moduleName[':id'].$delete(data).then(parseClientResponse)
-        };
-    }
+  delete(): ApiMutation<DeleteItem> {
+    return {
+      mutationFn: async (data) =>
+        await this.api.moduleName[':id'].$delete(data).then(parseClientResponse)
+    };
+  }
 }
 ```
 
@@ -278,26 +277,26 @@ export class ModuleNameModule extends TanstackRequestOptions {
 
 ```svelte
 <script lang="ts">
-    import { createQuery, createMutation } from '@tanstack/svelte-query';
-    import { api } from '$lib/domains';
+  import { createQuery, createMutation } from '@tanstack/svelte-query';
+  import { api } from '$lib/domains';
 
-    const query = createQuery({
-        ...api().moduleName.list()
-    });
+  const query = createQuery({
+    ...api().moduleName.list()
+  });
 
-    const createMutation = createMutation({
-        ...api().moduleName.create()
-    });
+  const createMutation = createMutation({
+    ...api().moduleName.create()
+  });
 
-    async function handleCreate(data: unknown) {
-        $createMutation.mutate(data);
-    }
+  async function handleCreate(data: unknown) {
+    $createMutation.mutate(data);
+  }
 </script>
 
 {#if $query.isSuccess}
-    {#each $query.data as item}
-        <div>{item.name}</div>
-    {/each}
+  {#each $query.data as item}
+    <div>{item.name}</div>
+  {/each}
 {/if}
 ```
 
@@ -388,17 +387,17 @@ import { ModuleNameController } from './module-name/module-name.controller';
 
 @injectable()
 export class ApplicationController extends Controller {
-    constructor(private moduleNameController = inject(ModuleNameController)) {
-        super();
-    }
+  constructor(private moduleNameController = inject(ModuleNameController)) {
+    super();
+  }
 
-    registerControllers() {
-        return (
-            this.controller
-                // ...
-                .route('/', this.moduleNameController.routes())
-        );
-    }
+  registerControllers() {
+    return (
+      this.controller
+        // ...
+        .route('/', this.moduleNameController.routes())
+    );
+  }
 }
 ```
 
@@ -420,7 +419,7 @@ Update `src/lib/domains/index.ts`:
 import { ModuleNameModule } from './module-name/api';
 
 class ApiModule extends TanstackRequestOptions {
-    moduleName = new ModuleNameModule(this.opts);
+  moduleName = new ModuleNameModule(this.opts);
 }
 ```
 

@@ -1,4 +1,5 @@
 import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+
 import { notificationsTable } from '../notifications.schema';
 
 export const notificationDto = createSelectSchema(notificationsTable);

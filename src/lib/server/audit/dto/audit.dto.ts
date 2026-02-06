@@ -1,4 +1,5 @@
 import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+
 import { auditLogsTable } from '../audit.schema';
 
 export const auditLogDto = createSelectSchema(auditLogsTable);

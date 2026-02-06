@@ -1,5 +1,6 @@
-import type { ClientRequestOptions } from 'hono';
 import { honoClient } from '$lib/utils/api';
+
+import type { ClientRequestOptions } from 'hono';
 
 export abstract class TanstackRequestOptions {
   protected readonly opts: ClientRequestOptions | undefined;

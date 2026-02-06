@@ -1,4 +1,5 @@
 import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+
 import { roomsTable } from '../rooms.schema';
 
 export const roomDto = createSelectSchema(roomsTable);

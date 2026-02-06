@@ -1,6 +1,7 @@
 University Student Accommodation Tracker - User Agents & Roles
 
 This document defines the user agents (actors) within the University Student Accommodation Tracker system, outlining their specific privileges, responsibilities, and workflows as defined in the project specifications.
+
 1. Student
 
 The primary end-users of the system seeking accommodation within the university or partner housing.
